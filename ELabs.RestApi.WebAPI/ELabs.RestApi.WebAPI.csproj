@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="3.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="9.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="7.3.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ELabs.RestApi.Application\ELabs.RestApi.Application.csproj" />
+    <ProjectReference Include="..\ELabs.RestApi.Infrastructure\ELabs.RestApi.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="logs\**" />
+    <Content Remove="DeploymentConfigs\**" />
+    <None Remove="DeploymentConfigs\**" />
+    <Content Remove="dotnet-tools.json" />
+  </ItemGroup>
+
+  <Target Name="UseEnvironmentWebConfig" AfterTargets="Publish">
+    <PropertyGroup>
+      <_EnvConfig>$(MSBuildProjectDirectory)\DeploymentConfigs\web.$(DeployConfigName).config</_EnvConfig>
+    </PropertyGroup>
+    <Error Condition="'$(DeployConfigName)' == ''"
+           Text="Publish with a profile that sets DeployConfigName; the root web.config is for local debugging only." />
+    <Error Condition="!Exists('$(_EnvConfig)')"
+           Text="Missing deployment config: $(_EnvConfig)" />
+    <Copy SourceFiles="$(_EnvConfig)" DestinationFiles="$(PublishDir)web.config" />
+  </Target>
+  
+</Project>

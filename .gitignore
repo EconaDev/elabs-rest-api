@@ -426,3 +426,5 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+/Database/AdventureWorks2025.bak
+/Database/AdventureWorksDW2025.bak

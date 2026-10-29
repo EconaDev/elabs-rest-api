@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ELabs.RestApi.Application/ELabs.RestApi.Application.csproj" />
+  <Project Path="ELabs.RestApi.Domain/ELabs.RestApi.Domain.csproj" />
+  <Project Path="ELabs.RestApi.Infrastructure/ELabs.RestApi.Infrastructure.csproj" />
+  <Project Path="ELabs.RestApi.WebAPI/ELabs.RestApi.WebAPI.csproj" />
+</Solution>
